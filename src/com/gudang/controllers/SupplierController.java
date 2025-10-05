@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -59,7 +60,23 @@ public class SupplierController {
 
     @FXML
     void openEditSupplier(ActionEvent event) throws Exception {
+        Supplier selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
 
+        if (selectedSupplier != null) {
+            Stage stage = (Stage) new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditSupplier.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.setTitle("Edit Supplier");
+
+            EditSupplierController controller = loader.getController();
+            controller.setSupplierData(selectedSupplier);
+
+            stage.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Pilih data yang ingin diedit!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
