@@ -81,7 +81,25 @@ public class SupplierController {
 
     @FXML
     void deleteSupplier(ActionEvent event) {
+        Supplier selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
 
+        if (selectedSupplier != null) {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Konfirmasi Hapus");
+            confirm.setHeaderText("Apakah Anda yakin ingin menghapus?");
+            confirm.setContentText(selectedSupplier.getNama());
+
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    data.remove(selectedSupplier);
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Data " + selectedSupplier.getNama() + " berhasil dihapus!");
+                    success.showAndWait();
+                }
+            });
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Pilih data yang ingin dihapus!");
+            alert.showAndWait();
+        }
     }
 
 }
